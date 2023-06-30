@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>シフト管理</title>
+	<link rel="stylesheet" href="sample.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript">
+
+
+
+		$(function () {
+			createCalrendarTable() 
+
+			// id.registerをクリックしたらfunction()の処理のid.hidden_monthに、
+			//「selectタグのname='month'に入っているデータ」を入れるが実行される
+
+			$("#register").on("click", function () {
+				$("#hidden_month").val($("select[name='month']").val())
+
+				$.ajax({
+
+					//formタグのactionと同じurl
+
+					url: '/shift_tool/register',
+					type: "POST",
+
+					//registerFormの中のデータを並べる
+
+					data: $("#registerForm").serialize()
+
+				}).done(function (data) {
+					/* 通信成功時 */
+					alert(data)
+					createCalrendarTable()
+
+				}).fail(function (data) {
+					/* 通信失敗時 */
+					alert("通信失敗時");
+
+				}).always(function (data) {
+					/* 通信成功・失敗問わず */
+
+				});
+
+			})
+
+			$("#update").on("click", function () {
+				$("#hidden_month2").val($("select[name='month']").val())
+
+
+				$.ajax({
+
+					//formタグのactionと同じurl
+
+					url: '/shift_tool/update',
+					type: "POST",
+
+					//deleteFormの中のデータを並べる
+
+					data: $("#updateForm").serialize()
+
+				}).done(function (data) {
+					/* 通信成功時 */
+					alert(data)
+					createCalrendarTable()
+				}).fail(function (data) {
+					/* 通信失敗時 */
+					alert("通信失敗時");
+
+				}).always(function (data) {
+					/* 通信成功・失敗問わず */
+
+				});
+
+			})
+
+			$("#delete").on("click", function () {
+				$("#hidden_month1").val($("select[name='month']").val())
+
+
+				$.ajax({
+
+					//formタグのactionと同じurl
+
+					url: '/shift_tool/delete',
+					type: "POST",
+
+					//deleteFormの中のデータを並べる
+
+					data: $("#deleteForm").serialize()
+
+				}).done(function (data) {
+					/* 通信成功時 */
+					alert(data)
+					createCalrendarTable() 
+
+				}).fail(function (data) {
+					/* 通信失敗時 */
+					alert("通信失敗時");
+
+				}).always(function (data) {
+					/* 通信成功・失敗問わず */
+
+				});
+
+			})
+
+
+
+			//
+			$.ajax({
+				url: '/shift_tool/humanSelectBox',
+				type: "POST"
+			}).done(function (data) {
+				/* 通信成功時 */
+				//pタグのhuman-selectクラスに表示する
+				$("select.human-select").html(data)
+
+
+				// $("p[name=humman-select]")
+
+				// console.log($("p.human-select"))
+
+			}).fail(function (data) {
+				/* 通信失敗時 */
+				alert("通信失敗時");
+
+			}).always(function (data) {
+				/* 通信成功・失敗問わず */
+
+			});
+			//
+			$.ajax({
+				url: '/shift_tool/daySelectBox',
+				type: "POST"
+			}).done(function (data) {
+				/* 通信成功時 */
+				//pタグのday-selectクラスに表示する
+				$("select.day-select").html(data)
+
+
+			}).fail(function (data) {
+				/* 通信失敗時 */
+				alert("通信失敗時");
+				
+
+			}).always(function (data) {
+				/* 通信成功・失敗問わず */
+
+			});
+
+			function createCalrendarTable() {
+
+				$.ajax({
+					url: '/shift_tool/calendarTable',
+					type: "POST"
+				}).done(function (data) {
+					/* 通信成功時 */
+					//pタグのtestクラスに表示する
+					$("#ctb").html(data)
+
+
+
+					// $("p[name=humman-select]")
+
+					// console.log($("p.human-select"))
+
+				}).fail(function (data) {
+					/* 通信失敗時 */
+					alert("通信失敗時");
+
+				}).always(function (data) {
+					/* 通信成功・失敗問わず */
+
+				});
+
+			}
+		});
+
+
+
+	</script>
+</head>
+
+<body>
+
+	<header>
+		<div class="header-area">
+			<p>シフト管理ツール</p>
+		</div>
+	</header>
+
+	<div class="main">
+		<h1 class="title">シフト登録</h1>
+
+
+		<form method="post" action="/shift_tool/register" id="registerForm">
+			<div class="register1">
+				<p class="item">人</p>
+				<p class="item2">
+					<select name="human" class="pd human-select">
+					</select>
+
+				</p>
+			</div>
+
+			<div class="register2">
+				<p class="item">日時</p>
+				<p class="item2">
+					<select name='day' class='pd day-select'>
+					</select>
+
+				</p>
+			</div>
+
+			<div class="register3">
+				<p class="item">午前/午後</p>
+				<p class="item2">
+					<select name="time" class="pd">
+						<option value="">午前/午後を選択してください</option>
+						<option value="0">午前</option>
+						<option value="1">午後</option>
+					</select>
+				</p>
+			</div>
+
+			<div class="button">
+				<input type="button" value="登録" class="buttonsize" id="register">
+			</div>
+
+
+
+
+			<!-- hiddenで隠している -->
+
+			<input type="hidden" name="month" id="hidden_month">
+
+		</form>
+
+
+		<!-- ここからカレンダー部分 -->
+
+
+
+
+		<p>
+			<select name="month" class="pd-mouth">
+				<option value="">選択してください</option>
+				<option value="1">１月</option>
+				<option value="2">２月</option>
+				<option value="3">３月</option>
+				<option value="4">４月</option>
+				<option value="5">５月</option>
+				<option value="6" selected>６月</option>
+				<option value="7">７月</option>
+				<option value="8">８月</option>
+				<option value="9">９月</option>
+				<option value="10">１０月</option>
+				<option value="11">１１月</option>
+				<option value="12">１２月</option>
+			</select>
+		</p>
+
+
+		<!-- ここからJSカレンダー -->
+
+		<table border="0" width="100%" id="ctb">
+		</table>
+
+
+
+		<!-- ここまでJSカレンダー -->
+
+
+
+
+		<h1 class="title">シフト更新</h1>
+
+		<form method="post" action="/shift_tool/update" id="updateForm">
+
+			<p>
+				<select name="human" class="pd human-select">
+				</select>
+
+				<span class="letter">の</span>
+
+			</p>
+
+			<p>
+
+				<select name="day2" class="pd day-select">
+				</select>
+
+
+				<span class="letter">の</span>
+
+				<select name="time2" class="pd">
+					<option value="">午前/午後を選択してください</option>
+					<option value="0">午前</option>
+					<option value="1">午後</option>
+				</select>
+
+				<span class="letter">のシフトを</span>
+
+			</p>
+
+			<p>
+				<select name="day" class="pd day-select">
+				</select>
+
+				<span class="letter">の</span>
+
+				<select name="time" class="pd">
+					<option value="">午前/午後を選択してください</option>
+					<option value="0">午前</option>
+					<option value="1">午後</option>
+				</select>
+
+				<span class="letter">に</span>
+
+			</p>
+
+			<div class="button">
+				<input type="button" value="更新" class="buttonsize" id="update">
+			</div>
+
+			<input type="hidden" name="month" id="hidden_month2">
+
+		</form>
+
+		<h1 class="title">シフト削除</h1>
+
+		<form method="post" action="/shift_tool/delete" id="deleteForm">
+
+
+			<p>
+
+				<select name="human" class="pd human-select">
+				</select>
+
+				<span class="letter">の</span>
+
+			</p>
+
+
+
+			<select name="day" class="pd day-select">
+
+			</select>
+
+
+			<span class="letter">の</span>
+
+			<select name="time" class="pd">
+				<option value="">午前/午後を選択してください</option>
+				<option value="0">午前</option>
+				<option value="1">午後</option>
+			</select>
+
+			<span class="letter">のシフトを</span>
+			<div class="button">
+				<input type="button" value="削除" class="buttonsize" id="delete">
+			</div>
+
+			<input type="hidden" name="month" id="hidden_month1">
+		</form>
+
+	</div>
+	<footer>
+	</footer>
+</body>
+
+</html>

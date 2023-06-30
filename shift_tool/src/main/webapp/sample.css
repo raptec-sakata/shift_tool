@@ -1,0 +1,101 @@
+.header-area{
+		font-size: 32px;
+		height: 128px;
+		width: auto;
+		background: #1E2D48;
+		color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+}
+
+.main{
+	margin: 0px 80px;
+}
+
+.title{
+	font-size: 24px;
+	margin: 20px 0 0 0 ;
+}
+
+.item{
+	font-size: 24px;
+	width: 40%;
+	height: 50px;
+}
+
+
+select{
+	font-size: 16px;
+}
+
+.pd{
+	width: 350px;	
+}
+
+.register1 , .register2 , .register3{
+	display: table;
+	width: 100%;
+	border-collapse: separate;
+}
+
+.item, .item2{
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.button{
+	display: flex;
+	justify-content: flex-end;
+
+}
+
+.buttonsize{
+	border-radius: 4px;
+	font-size: 16px;
+	color: white;
+  	background-color: #9B9BCA;
+  	border-color: #9B9BCA;
+}
+
+table{
+    	border-collapse: collapse;
+    	
+    	
+}
+
+td{
+	border-right:1px solid;
+	text-align: center;
+	width: 14%;
+}
+
+.week{
+	font-size: 150%;
+}
+
+.number{
+	height: 25px;
+	border:1px solid;
+	font-size: 75%;
+}
+
+.shift1, .shift2{
+	height: 25px;
+	border-right:1px solid;
+	border-left:1px solid;
+	font-size: 75%;
+}
+
+.shift1{
+	border-bottom: 1px dashed #333 !important;
+}
+
+ .shift2{
+	border-bottom: 1px solid;
+}
+
+.letter{
+	font-size: 12px;
+	margin: 0 50px;
+}
